@@ -1,3 +1,4 @@
+// items
 const menu = [
     {
       id: 1,
@@ -80,3 +81,79 @@ const menu = [
       desc: `skateboard fam synth authentic semiotics. Live-edge lyft af, edison bulb yuccie crucifix microdosing.`,
     },
   ];
+
+  // select DOM target, parent element
+  const container = document.querySelector('.btn-container');
+  const section = document.querySelector('.section-center');
+ 
+
+// display all items when the page loads
+window.addEventListener('DOMContentLoaded', function() {
+displayMenuItems(menu);
+displayMenuBtns();
+});
+
+
+function displayMenuItems(menuItems) {
+// iterate over the array
+let displayMenu = menuItems.map(function (item) {
+  // console.log(item);
+
+  return (`<article class="menu-item">
+  <img src=${item.img} alt=${item.title} class="photo">
+  <div class="item-info">
+      <header>
+          <h4>${item.title}</h4>
+          <h4 class="price">${item.price}</h4>
+      </header>
+      <p class="item-text">${item.desc}</p>
+  </div>
+</article>`
+  );
+});
+// console.log(displayMenu);
+displayMenu = displayMenu.join('');
+
+// display data to the DOM tree
+section.innerHTML = displayMenu;
+}
+
+function displayMenuBtns(){
+  const categories = menu.reduce(function(values,item){
+    if (!values.includes(item.category)){
+      values.push(item.category);
+    }
+    return values;
+  }, ['all']);
+  // console.log(categories);
+  const categoryBtns = categories.map(function(category){
+    return(
+  `<button data-id=${category} class="filter-btn">${category}</button>`
+    );
+  }).join('');
+  
+  container.innerHTML = categoryBtns;
+  
+  const filterBtns = document.querySelectorAll('.filter-btn');
+
+  // filter items
+filterBtns.forEach(function (btn){
+  btn.addEventListener('click', function(e) {
+    const category = (e.currentTarget.dataset.id);
+    // console.log(e.currentTarget);
+    const menuCategory = menu.filter(function(menuItem){
+      // console.log(menuItem.category)
+      if (menuItem.category === category){
+        return menuItem;
+      }
+    });
+    if (category === 'all'){
+      displayMenuItems(menu);
+    }
+    else {
+      displayMenuItems(menuCategory);
+    }
+  });
+
+});
+}
