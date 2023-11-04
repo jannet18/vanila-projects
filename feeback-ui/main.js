@@ -4,19 +4,23 @@ const btnEl = document.getElementById('btn');
 const container = document.querySelector('.container');
 
 let selectedRating = '';
-function removeActive(){
-    ratingEls.forEach(function (ratingEl){
-        ratingEl.classList.remove('active');
-    })
-}
+// function removeActive(){
+//     ratingEls.forEach(function (ratingEl){
+//         ratingEl.classList.remove('active');
+//     })
+// }
 
 ratingEls.forEach((ratingEl) => {
     ratingEl.addEventListener('click', function (e){
-        removeActive();
+        ratingEls.forEach((ratingEl) => {
+            ratingEl.classList.remove('active');
+        })
+        // removeActive();
         selectedRating = e.target.innerText || e.target.parentNode.innerText;
         e.target.classList.add('active');
         e.target.parentNode.classList.add("active");
     });
+    
 });
 
 
